@@ -46,7 +46,7 @@ RUN git clone https://github.com/bloomberg/clang-p2996.git
 WORKDIR /usr/src/clang-p2996
 RUN git switch p2996
 RUN cmake -S llvm -B build -G Ninja \
-      -DLLVM_ENABLE_PROJECTS="clang" \
+      -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind" \
       -DCLANG_DEFAULT_CXX_STDLIB=libc++

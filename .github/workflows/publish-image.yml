@@ -3,9 +3,9 @@ name: Build & Publish Dev Image
 on:
   push:
     paths:
-      - 'Dockerfile'
-      - 'labels/**'
-      - '.github/workflows/publish-image.yml'
+      - "Dockerfile"
+      - "labels/**"
+      - ".github/workflows/publish-image.yml"
   workflow_dispatch:
 
 permissions:
@@ -34,7 +34,7 @@ jobs:
           context: .
           file: Dockerfile
           push: true
-          tags: ghcr.io/mgerhold/clang-p2996:latest
+          tags: ghcr.io/jakobus42/clang-p2996-dev:latest
           labels: |
             org.opencontainers.image.source=${{ github.repository }}
             org.opencontainers.image.description=Clang p2996 dev container

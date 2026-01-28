@@ -41,18 +41,19 @@ RUN curl -LsSf https://astral.sh/uv/install.sh | sh && \
     echo 'export PATH="$HOME/.uv/bin:$PATH"' >> /etc/profile.d/uv.sh
 
 WORKDIR /usr/src
-RUN git clone https://github.com/bloomberg/clang-p2996.git
+RUN git clone --depth=1 --branch p2996 https://github.com/bloomberg/clang-p2996.git
 
 WORKDIR /usr/src/clang-p2996
 RUN git switch p2996
 RUN cmake -S llvm -B build -G Ninja \
-      -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;compiler-rt" \
+      -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra" \
       -DCMAKE_BUILD_TYPE=Release \
       -DLLVM_ENABLE_RUNTIMES="libcxx;libcxxabi;libunwind;compiler-rt" \
       -DCLANG_DEFAULT_CXX_STDLIB=libc++ \
-      -DCOMPILER_RT_BUILD_SANITIZERS=ON
+      -DCOMPILER_RT_BUILD_SANITIZERS=ON \
+      -DLLVM_TARGETS_TO_BUILD="X86"
 
-RUN cmake --build build -j$(nproc)
+RUN cmake --build build -j2
 
 ENV PATH=/usr/src/clang-p2996/build/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/src/clang-p2996/build/lib/x86_64-unknown-linux-gnu

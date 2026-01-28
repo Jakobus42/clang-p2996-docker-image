@@ -57,6 +57,8 @@ RUN cmake --build build -j2
 
 ENV PATH=/usr/src/clang-p2996/build/bin:$PATH
 ENV LD_LIBRARY_PATH=/usr/src/clang-p2996/build/lib/x86_64-unknown-linux-gnu
+ENV CC=/usr/src/clang-p2996/build/bin/clang
+ENV CXX=/usr/src/clang-p2996/build/bin/clang++
 
 RUN update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.12 1 && \
     update-alternatives --install /usr/bin/python3 python3 /usr/bin/python3.13 2
@@ -67,9 +69,9 @@ RUN apt-get update && \
 
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-      gdb && \
-    rm -rf /var/lib/apt/lists/*
+      gdb &&  \
+      rm -rf /var/lib/apt/lists/*
 
 COPY LICENSES/ /licenses/
 
-CMD ["/bin/bash"]
+SHELL ["/bin/bash"]
